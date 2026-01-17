@@ -73,16 +73,6 @@ employee);
 
 
 
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE Vehicle (
 vehicle_id INT PRIMARY KEY,
 vehicle_name VARCHAR(30),
@@ -115,9 +105,55 @@ INSERT INTO Vehicle VALUES
 (20, 'Electric Car', 1800000, 'Electric', 'White', 4); 
 
 
+# Two ways to create SP -> 1.Manual/ by Syntax 2.Auto SP
+# 1.Manual / Syntax 
+-- delimiter //
+-- create procedure pro1()
+-- begin
+-- 	# queries
+-- end //
 
+-- delimiter ;
 
+delimiter //
+create procedure pro1()
+begin
+	select * from vehicle;
+    select * from employee;
+end //
 
+delimiter ;
+call pro1();
+
+-- CREATE DEFINER=`root`@`localhost` PROCEDURE `auto_pro_in`(IN n int)
+-- BEGIN
+-- select * from vehicle limit n;
+-- END
+
+call auto_pro_in(3);
+call auto_pro_in(5);
+-- Task-1 create SP using In parameter and extract the data of vehicles who is having fuel type = "Petrol" 
+
+-- CREATE DEFINER=`root`@`localhost` PROCEDURE `out_para`(out n int)
+-- BEGIN
+-- select max(price) into n from vehicle;
+-- END
+
+call out_para(@n);
+select @n as Max_Price;
+
+-- CREATE DEFINER=`root`@`localhost` PROCEDURE `inout_sp`(inout cnt varchar(20))
+-- BEGIN
+-- select count(vehicle_id) into cnt from vehicle 
+-- where color=cnt;
+-- END
+set @cnt = "Black";
+call inout_sp(@cnt);
+select @cnt as Count_by_color;
+
+set @cnt = "white";
+call inout_sp(@cnt);
+select @cnt as Count_by_color;
 
 
 
